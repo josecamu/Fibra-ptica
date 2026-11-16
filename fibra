@@ -1,0 +1,166 @@
+La fibra òptica en les xarxes.html
+
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La fibra òptica en les xarxes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap">
+<style>
+:root{--bg:#eef3f7;--surface:#fff;--ink:#12263a;--mute:#4d6277;--line:#c9d5e0;--core:#f2a900;--clad:#2f6f9f;--coat:#8aa6bd;--accent:#0b5d8a;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1b27;--surface:#17283a;--ink:#e6eef5;--mute:#9fb3c6;--line:#2c4258;--core:#ffc233;--clad:#4c9bd0;--coat:#4a6a85;--accent:#6cc0f0;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1b27;--surface:#17283a;--ink:#e6eef5;--mute:#9fb3c6;--line:#2c4258;--core:#ffc233;--clad:#4c9bd0;--coat:#4a6a85;--accent:#6cc0f0;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:860px;margin:0 auto;padding:40px 20px 64px}
+h1,h2{font-family:Sora,system-ui,sans-serif;line-height:1.15;margin:0 0 .5em}
+h1{font-size:clamp(2rem,6vw,3.2rem);letter-spacing:-.02em}
+h2{font-size:1.5rem;margin-top:2.6em}
+p{max-width:64ch;margin:0 0 1em;color:var(--mute)}
+.lead{font-size:1.15rem;color:var(--ink)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+svg{width:100%;height:auto;display:block}
+.ctl{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:12px}
+input[type=range]{flex:1;min-width:200px;accent-color:var(--accent)}
+.out{font-weight:600;color:var(--ink)}
+.verdict{font-weight:600;min-height:1.6em}
+.ok{color:#1c8a4a}.bad{color:#c2410c}
+@media (prefers-color-scheme:dark){.ok{color:#5fd68c}.bad{color:#ff9b66}}
+.tabs{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+button{font:inherit;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+button[aria-pressed=true]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.grid .panel p{margin:0;font-size:.95rem}
+.grid h3{margin:0 0 6px;font:600 1.05rem Sora,system-ui,sans-serif;color:var(--ink)}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:480px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:.95rem;color:var(--ink)}
+th{font-family:Sora,system-ui,sans-serif;font-weight:600}
+.pulse{animation:flow 2.4s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-60}}
+@media (prefers-reduced-motion:reduce){.pulse{animation:none}}
+</style>
+</head>
+<body>
+<main>
+<h1>La fibra òptica en les xarxes</h1>
+<p class="lead">Un fil de vidre més prim que un cabell transporta dades en forma de llum. Així viatgen internet, la fibra a casa i els cables que creuen els oceans.</p>
+
+<div class="panel" aria-label="Il·lustració d’una fibra òptica">
+<svg viewBox="0 0 700 150" role="img" aria-label="Pols de llum rebotant dins el nucli d’una fibra">
+<rect x="10" y="20" width="680" height="110" rx="10" fill="var(--coat)"/>
+<rect x="10" y="32" width="680" height="86" fill="var(--clad)"/>
+<rect x="10" y="55" width="680" height="40" fill="var(--core)" opacity=".35"/>
+<polyline class="pulse" points="10,58 90,92 170,58 250,92 330,58 410,92 490,58 570,92 650,58 690,75" fill="none" stroke="var(--core)" stroke-width="4" stroke-dasharray="14 16" stroke-linecap="round"/>
+<text x="20" y="14" font-size="13" fill="var(--mute)">Embolcall exterior</text>
+<text x="20" y="146" font-size="13" fill="var(--ink)">Folre (cladding) · Nucli (core) al centre</text>
+</svg>
+<p style="margin:10px 0 0">El nucli deixa passar la llum i el folre, amb un índex de refracció una mica menor, la manté dins. Les dades són pulsos de llum: encès és 1, apagat és 0.</p>
+</div>
+
+<h2>Per què la llum no s’escapa?</h2>
+<p>Quan un raig toca la frontera entre nucli i folre amb un angle prou rasant, es reflecteix del tot. És la reflexió interna total. Prova-ho: canvia l’angle del raig respecte a l’eix de la fibra.</p>
+<div class="panel">
+<svg viewBox="0 0 700 220" id="tir" role="img" aria-label="Raig de llum dins una fibra"></svg>
+<div class="ctl"><label for="ang">Angle respecte a l’eix:</label><input id="ang" type="range" min="1" max="25" step="0.5" value="5"><span class="out" id="angv"></span></div>
+<div class="verdict" id="vd" aria-live="polite"></div>
+</div>
+
+<h2>Monomode o multimode</h2>
+<div class="panel">
+<div class="tabs" role="group" aria-label="Tipus de fibra">
+<button id="bs" aria-pressed="true">Monomode</button><button id="bm" aria-pressed="false">Multimode</button>
+</div>
+<svg viewBox="0 0 700 150" id="modes" role="img" aria-label="Comparació de camins de la llum"></svg>
+<p id="mtxt" style="margin:10px 0 0"></p>
+</div>
+
+<h2>On la trobem a la xarxa</h2>
+<div class="grid">
+<div class="panel"><h3>Fibra a casa (FTTH)</h3><p>Va des de la central de l’operador fins al router de casa. Dona velocitats simètriques de 600 Mbps a 10 Gbps o més.</p></div>
+<div class="panel"><h3>Xarxes troncals</h3><p>Uneixen ciutats i centres de dades amb molts canals alhora, cadascun amb un color (longitud d’ona) diferent.</p></div>
+<div class="panel"><h3>Cables submarins</h3><p>Connecten continents. Porten repetidors òptics cada pocs desenes de quilòmetres per reforçar el senyal.</p></div>
+<div class="panel"><h3>Centres de dades</h3><p>Connecten servidors i commutadors a molta velocitat i amb poca latència a distàncies curtes.</p></div>
+</div>
+
+<h2>Fibra o coure</h2>
+<div class="panel scroll">
+<table>
+<tr><th></th><th>Fibra òptica</th><th>Cable de coure</th></tr>
+<tr><td>Senyal</td><td>Llum</td><td>Corrent elèctric</td></tr>
+<tr><td>Distància sense repetir</td><td>Desenes de km o més</td><td>Uns 100 m (Ethernet)</td></tr>
+<tr><td>Interferències</td><td>Immune a les electromagnètiques</td><td>Sensible</td></tr>
+<tr><td>Ample de banda</td><td>Molt alt</td><td>Limitat</td></tr>
+<tr><td>Cost d’instal·lació</td><td>Més alt, però baixant</td><td>Més baix</td></tr>
+</table>
+</div>
+</main>
+
+<script>
+var NS="http://www.w3.org/2000/svg";
+function el(p,n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e}
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
+
+/* Reflexió interna total */
+var CRIT=90-Math.asin(1.46/1.48)*180/Math.PI;
+function drawTir(){
+  var s=document.getElementById('tir');s.innerHTML='';
+  var a=parseFloat(document.getElementById('ang').value);
+  document.getElementById('angv').textContent=a+'°';
+  el(s,'rect',{x:10,y:40,width:680,height:140,fill:css('--clad')});
+  el(s,'rect',{x:10,y:70,width:680,height:80,fill:css('--core'),opacity:.3});
+  var top=70,bot=150,y=110,x=10,dir=1,pts=[[x,y]];
+  var t=Math.tan(a*Math.PI/180),ok=a<CRIT;
+  if(ok){
+    while(x<690){var dy=dir>0?bot-y:y-top,dx=dy/t;
+      if(x+dx>690){pts.push([690,y+dir*(690-x)*t]);break}
+      x+=dx;y=dir>0?bot:top;pts.push([x,y]);dir=-dir}
+    el(s,'polyline',{points:pts.map(function(p){return p.join(',')}).join(' '),fill:'none',stroke:css('--core'),'stroke-width':4,'stroke-linejoin':'round'});
+  }else{
+    var dx=40/t;x=10+dx;pts.push([x,150]);
+    el(s,'polyline',{points:pts.map(function(p){return p.join(',')}).join(' '),fill:'none',stroke:css('--core'),'stroke-width':4});
+    el(s,'line',{x1:x,y1:150,x2:x+60,y2:195,stroke:css('--core'),'stroke-width':3,'stroke-dasharray':'6 6'});
+  }
+  var v=document.getElementById('vd');
+  v.className='verdict '+(ok?'ok':'bad');
+  v.textContent=ok?'El raig es reflecteix i segueix dins la fibra.':'Angle massa gran: part de la llum surt i el senyal es perd.';
+  el(s,'text',{x:20,y:30,'font-size':13,fill:css('--mute')}).textContent='Angle màxim útil en aquest model: uns '+CRIT.toFixed(1)+'°';
+}
+document.getElementById('ang').addEventListener('input',drawTir);
+
+/* Monomode / multimode */
+function drawModes(single){
+  var s=document.getElementById('modes');s.innerHTML='';
+  var w=single?12:60,cy=75;
+  el(s,'rect',{x:10,y:15,width:680,height:120,rx:8,fill:css('--clad')});
+  el(s,'rect',{x:10,y:cy-w/2,width:680,height:w,fill:css('--core'),opacity:.4});
+  if(single){
+    el(s,'line',{x1:10,y1:cy,x2:690,y2:cy,stroke:css('--core'),'stroke-width':4})
+  }else{
+    var tr=[[8,.6],[16,.4],[25,.25]];
+    tr.forEach(function(q,i){var pts=[[10,cy]],x=10,y=cy,d=1,h=w/2,dx=h/Math.tan(q[0]*Math.PI/180);
+      var first=h/Math.tan(q[0]*Math.PI/180);
+      while(x<690){x+=dx;y=cy+d*h;pts.push([Math.min(x,690),y]);d=-d;dx=2*h/Math.tan(q[0]*Math.PI/180)}
+      el(s,'polyline',{points:pts.map(function(p){return p.join(',')}).join(' '),fill:'none',stroke:css('--core'),'stroke-width':3,opacity:1-i*.2})});
+  }
+  document.getElementById('mtxt').textContent=single
+   ?'Nucli d’uns 9 µm: la llum fa un sol camí. Té poca dispersió i arriba molt lluny, per això s’usa a la fibra a casa i a les xarxes troncals.'
+   :'Nucli de 50 o 62,5 µm: la llum fa molts camins i arriba en moments lleugerament diferents. Va bé per a distàncies curtes, com a centres de dades.';
+}
+var sing=true;
+function setMode(v){sing=v;document.getElementById('bs').setAttribute('aria-pressed',v);document.getElementById('bm').setAttribute('aria-pressed',!v);drawModes(v)}
+document.getElementById('bs').onclick=function(){setMode(true)};
+document.getElementById('bm').onclick=function(){setMode(false)};
+function all(){drawTir();drawModes(sing)}
+all();
+matchMedia('(prefers-color-scheme:dark)').addEventListener('change',all);
+</script>
+</body>
+</html>
+
+Pàgina 1 de 8
